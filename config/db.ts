@@ -7,7 +7,7 @@ export const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASS || "",
-  database: process.env.DB_NAME || "promo_vibezz",
+  database: process.env.DB_NAME || "vibez_promo",
   waitForConnections: true,
   connectionLimit: 10,
 });

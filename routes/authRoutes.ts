@@ -2,18 +2,19 @@ import { Router } from "express";
 import * as authController from "../controllers/authController";
 import { authenticate } from "../middlewares/auth";
 import { requirePermission } from "../middlewares/permissions";
+import { apiKeyAuth } from "../middlewares/apiKeyAuth";
 
 const router = Router();
 
-router.post("/register", authController.register);
+router.use(apiKeyAuth);
+
 router.post("/login", authController.login);
+router.post("/register", authenticate, authController.register);
+router.get("/me", authenticate, authController.me);
+router.get("/created-users", authenticate, authController.listCreatedUsers);
+router.delete("/users/:id", authenticate, authController.deleteUser);
+router.put("/users/:id", authenticate, authController.editUser);
 
-// rota que só usuários logados podem acessar
-router.get("/me", authenticate, (req, res) => {
-  res.json((req as any).user);
-});
-
-// rota que só ADMIN pode acessar
 router.get(
   "/admin-only",
   authenticate,

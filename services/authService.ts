@@ -4,17 +4,27 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "segredo123";
 
-export async function register(name: string, email: string, password: string) {
-  const existing = await userRepo.findByEmail(email);
-  if (existing) throw new Error("E-mail já cadastrado");
+export async function register(
+  name: string,
+  email: string,
+  password: string,
+  permission: string,
+  createdBy: number
+) {
+  const existingUser = await userRepo.findByEmail(email);
+  if (existingUser) throw new Error("Email já cadastrado");
 
-  const hashed = await bcrypt.hash(password, 10);
-  const userId = await userRepo.createUser(name, email, hashed);
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const userId = await userRepo.createUser(
+    name,
+    email,
+    hashedPassword,
+    createdBy
+  );
 
-  // atribui permissão padrão USER
-  await userRepo.assignPermission(userId, "USER");
+  await userRepo.assignPermission(userId, permission);
 
-  return { id: userId, name, email, permissions: ["USER"] };
+  return { id: userId, name, email, permission, createdBy };
 }
 
 export async function login(email: string, password: string) {

@@ -2,7 +2,11 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
+const password = "123456";
+const hashed = bcrypt.hashSync(password, 10);
+console.log(hashed);
 // importar rotas
 import authRoutes from "./routes/authRoutes";
 
