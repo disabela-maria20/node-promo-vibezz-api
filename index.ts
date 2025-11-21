@@ -4,25 +4,22 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 
-const password = "123456";
-const hashed = bcrypt.hashSync(password, 10);
-console.log(hashed);
-// importar rotas
+// const password = "123456";
+// const hashed = bcrypt.hashSync(password, 10);
+// console.log(hashed);
+
 import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 
 const app = express();
 
-// ---- MIDDLEWARES GLOBAIS ----
-app.use(helmet()); // segurança básica (headers HTTP)
-app.use(cors()); // permitir chamadas de front-ends
-app.use(express.json()); // interpretar JSON do body
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
 
-// ---- ROTAS ----
-app.use("/auth", authRoutes); // todas as rotas de autenticação
+app.use("/auth", authRoutes);
 
-// ---- TRATAMENTO DE ERROS GLOBAL ----
 app.use(
   (
     err: any,
@@ -37,7 +34,6 @@ app.use(
   }
 );
 
-// ---- INICIAR SERVIDOR ----
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

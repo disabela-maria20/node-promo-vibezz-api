@@ -14,6 +14,7 @@ router.get("/me", authenticate, authController.me);
 router.get("/created-users", authenticate, authController.listCreatedUsers);
 router.delete("/users/:id", authenticate, authController.deleteUser);
 router.put("/users/:id", authenticate, authController.editUser);
+router.get("/permissions", authenticate, authController.listPermission);
 
 router.get(
   "/admin-only",

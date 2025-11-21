@@ -124,3 +124,8 @@ export async function updateUserByIdAndCreator(
 
   return result.affectedRows;
 }
+
+export async function listPermissions(adminId: number) {
+  const [rows] = await pool.query("SELECT id, name FROM permissions", adminId);
+  return rows as any[];
+}

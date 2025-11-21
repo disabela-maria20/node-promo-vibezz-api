@@ -149,3 +149,20 @@ export const editUser: RequestHandler = async (req: AuthRequest, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const listPermission: RequestHandler = async (req: AuthRequest, res) => {
+  try {
+    const adminId = req.user!.id;
+
+    if (!req.user!.permissions.includes("ADMIN")) {
+      return res
+        .status(403)
+        .json({ message: "Apenas ADMIN pode listar usuários" });
+    }
+
+    const users = await userRepo.listPermissions(adminId);
+    res.json(users);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
