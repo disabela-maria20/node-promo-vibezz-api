@@ -47,7 +47,9 @@ export const login: RequestHandler = async (
     const data = await authService.login(email, password);
     res.json(data);
   } catch (err: any) {
-    res.status(401).json({ message: err.message });
+    res.status(401).json({
+      message: err?.message || "Credenciais inválidas",
+    });
   }
 };
 

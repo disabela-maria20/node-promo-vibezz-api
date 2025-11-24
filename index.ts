@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 // console.log(hashed);
 
 import authRoutes from "./routes/authRoutes";
+import promotionRoutes from "./routes/promotionRoutes";
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/promotion", promotionRoutes);
+
+app.use("/uploads", express.static("uploads"));
 
 app.use(
   (
@@ -27,10 +31,9 @@ app.use(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    console.error(err);
-    res
-      .status(err.status || 500)
-      .json({ message: err.message || "Erro interno do servidor" });
+    res.status(err.status || 500).json({
+      message: err.message || "Erro interno do servidor",
+    });
   }
 );
 
