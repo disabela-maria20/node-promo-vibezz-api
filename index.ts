@@ -3,11 +3,9 @@ import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-
 // const password = "123456";
 // const hashed = bcrypt.hashSync(password, 10);
 // console.log(hashed);
-
 import authRoutes from "./routes/authRoutes";
 import promotionRoutes from "./routes/promotionRoutes";
 
@@ -15,14 +13,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(helmet());
+// Configure Helmet with custom settings to allow static file serving
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // This fixes the CORS issue
+  })
+);
+
 app.use(cors());
 app.use(express.json());
 
+// Serve static files BEFORE routes (order matters)
+app.use("/uploads", express.static("uploads"));
+
 app.use("/auth", authRoutes);
 app.use("/promotion", promotionRoutes);
-
-app.use("/uploads", express.static("uploads"));
 
 app.use(
   (
