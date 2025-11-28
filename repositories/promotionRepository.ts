@@ -52,3 +52,8 @@ export const createdPromotion = async (
 
   return result[0];
 };
+
+export async function listFieldsPromotion() {
+  const [rows] = await pool.query("SELECT * FROM fields");
+  return rows as any[];
+}

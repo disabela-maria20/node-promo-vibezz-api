@@ -88,3 +88,12 @@ export const createdPromotion: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const listFieldsPromotion: RequestHandler = async (req, res) => {
+  try {
+    const promotion = await promo.listFieldsPromotion();
+    res.json(promotion);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};

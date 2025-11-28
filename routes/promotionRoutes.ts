@@ -22,4 +22,11 @@ router.post(
   ]),
   promotionController.createdPromotion
 );
+
+router.get(
+  "/list-fields-promotion",
+  authenticate,
+  promotionController.listFieldsPromotion
+);
+
 export default router;
